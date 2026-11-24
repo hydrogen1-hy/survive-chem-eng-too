@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 220" preserveAspectRatio="xMaxYMid slice" role="presentation">
+  <!-- Faint P&ID-style sketch: feed -> stirred reactor -> distillation column with condenser, reflux drum, reboiler -->
+  <g fill="none" stroke="#9cbcf0" stroke-opacity=".30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- feed line + flow instrument -->
+    <path d="M690 96 H760"/><path d="M750 89 l10 7 -10 7"/>
+    <circle cx="715" cy="52" r="14"/><path d="M715 66 V96"/>
+    <!-- stirred reactor -->
+    <path d="M760 64 H860 V150 Q860 186 810 186 Q760 186 760 150 Z"/>
+    <path d="M810 42 V138"/><rect x="797" y="30" width="26" height="12"/>
+    <path d="M786 138 H834"/><path d="M810 138 l-12 12 M810 138 l12 12"/>
+    <!-- reactor -> column -->
+    <path d="M860 120 H960"/><path d="M950 113 l10 7 -10 7"/>
+    <!-- distillation column -->
+    <rect x="960" y="14" width="70" height="192" rx="18"/>
+    <path d="M960 56 H1030 M960 88 H1030 M960 120 H1030 M960 152 H1030" stroke-dasharray="10 6"/>
+    <!-- overhead vapour -> condenser -> reflux drum -->
+    <path d="M995 14 V8 H1120 V26"/>
+    <circle cx="1120" cy="50" r="24"/><path d="M1100 50 q5 -10 10 0 t10 0 t10 0 t10 0"/>
+    <path d="M1120 74 V100 H1200"/>
+    <rect x="1200" y="80" width="110" height="40" rx="20"/>
+    <!-- reflux back to column, distillate out -->
+    <path d="M1255 80 V62 H1030"/><path d="M1040 55 l-10 7 10 7"/>
+    <path d="M1310 100 H1400"/><path d="M1390 93 l10 7 -10 7"/>
+    <!-- reboiler and bottoms -->
+    <circle cx="1120" cy="172" r="22"/><path d="M1102 172 h36"/>
+    <path d="M1030 190 H1098"/><path d="M1120 150 V140 H1030"/>
+    <path d="M1142 172 H1230"/><path d="M1220 165 l10 7 -10 7"/>
+    <!-- temperature controller on the column -->
+    <circle cx="1075" cy="150" r="14"/>
+    <path d="M1061 150 H1030" stroke-dasharray="3 4"/>
+  </g>
+  <g fill="#9cbcf0" fill-opacity=".38" font-family="Helvetica, Arial, sans-serif" font-size="11" text-anchor="middle">
+    <text x="715" y="56">FIC</text>
+    <text x="1075" y="154">TIC</text>
+  </g>
+</svg>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calculus: integrals and derivatives · I want to survive Chem Eng too</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/calculus.css">
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <h1>Calculus: integrals and derivatives</h1>
+    <p class="lede">Type a function and get the answer with the working, in the order you would write it by hand: the rule used at each step, the formula, the substitution or choice made, and the simpler integral that remains. Every integral is checked by differentiating the answer before it is shown. When none of the methods applies the page says so; it never guesses.</p>
+
+    <div class="tabs" role="tablist" aria-label="Calculator">
+      <button type="button" role="tab" id="tab-int" aria-controls="panel-int" aria-selected="true">Integrals</button>
+      <button type="button" role="tab" id="tab-der" aria-controls="panel-der" aria-selected="false" tabindex="-1">Derivatives</button>
+    </div>
+
+    <!-- ───────── integrals ───────── -->
+    <section id="panel-int" role="tabpanel" aria-labelledby="tab-int">
+      <div class="card">
+        <h2>Integral</h2>
+        <div class="field">
+          <label for="int-f">Function to integrate</label>
+          <input id="int-f" type="text" autocomplete="off" spellcheck="false" autocapitalize="off" placeholder="e.g. x^2*sin(x)" value="x*e^x" aria-describedby="int-read">
+        </div>
+        <div class="parse-note" id="int-read" aria-live="polite"></div>
+        <div class="row" style="margin-top: 12px;">
+          <div class="field narrow">
+            <label for="int-v">With respect to</label>
+            <input id="int-v" type="text" autocomplete="off" spellcheck="false" autocapitalize="off" maxlength="8" value="x">
+          </div>
+          <div class="field">
+            <label for="int-a">Lower limit (optional)</label>
+            <input id="int-a" type="text" autocomplete="off" spellcheck="false" autocapitalize="off" placeholder="e.g. 0 or -inf" aria-describedby="int-lim">
+          </div>
+          <div class="field">
+            <label for="int-b">Upper limit (optional)</label>
+            <input id="int-b" type="text" autocomplete="off" spellcheck="false" autocapitalize="off" placeholder="e.g. pi or inf" aria-describedby="int-lim">
+          </div>
+        </div>
+        <p class="small muted" id="int-lim" style="margin: 8px 0 0;">Leave both limits empty for an indefinite integral (the answer then has “+ C”). For a definite integral give both; <code>pi</code>, <code>e</code>, fractions and <code>inf</code> are accepted.</p>
+        <p class="actions" style="margin: 18px 0 14px;">
+          <button type="button" id="int-go">Solve</button>
+          <button type="button" id="int-clear" class="secondary">Clear</button>
+        </p>
+        <div class="label small">Examples (click one)</div>
+        <div class="chips" id="int-examples"></div>
+      </div>
+      <div id="int-out" aria-live="polite"></div>
+    </section>
+
+    <!-- ───────── derivatives ───────── -->
+    <section id="panel-der" role="tabpanel" aria-labelledby="tab-der" class="hidden">
+      <div class="card">
+        <h2>Derivative</h2>
+        <div class="field">
+          <label for="der-f">Function to differentiate</label>
+          <input id="der-f" type="text" autocomplete="off" spellcheck="false" autocapitalize="off" placeholder="e.g. x^2*sin(3x)" value="x^2*sin(3x)" aria-describedby="der-read">
+        </div>
+        <div class="parse-note" id="der-read" aria-live="polite"></div>
+        <div class="row" style="margin-top: 12px;">
+          <div class="field narrow">
+            <label for="der-v">With respect to</label>
+            <input id="der-v" type="text" autocomplete="off" spellcheck="false" autocapitalize="off" maxlength="8" value="x">
+          </div>
+          <div class="field narrow">
+            <label for="der-n">Order</label>
+            <select id="der-n">
+              <option value="1">First derivative</option>
+              <option value="2">Second derivative</option>
+              <option value="3">Third derivative</option>
+            </select>
+          </div>
+        </div>
+        <p class="small muted" style="margin: 8px 0 0;">If the function has several variables this is a partial derivative: the other variables are treated as constants.</p>
+        <p class="actions" style="margin: 18px 0 14px;">
+          <button type="button" id="der-go">Differentiate</button>
+          <button type="button" id="der-clear" class="secondary">Clear</button>
+        </p>
+        <div class="label small">Examples (click one)</div>
+        <div class="chips" id="der-examples"></div>
+      </div>
+      <div id="der-out" aria-live="polite"></div>
+    </section>
+
+    <div class="card">
+      <h2>How to type, and what to expect</h2>
+      <ul class="plain">
+        <li>Powers: <code>x^2</code>. Roots: <code>sqrt(x)</code>. Exponential: <code>e^x</code> or <code>exp(x)</code>. Constants: <code>pi</code> and <code>e</code>. Natural logarithm: <code>ln(x)</code> (<code>log(x)</code> means the same; <code>log10(x)</code> is base 10). Absolute value: <code>abs(x)</code>.</li>
+        <li>Trigonometric and hyperbolic functions: <code>sin cos tan cot sec csc</code>, <code>asin acos atan</code>, <code>sinh cosh tanh</code>. You can write <code>3x</code>, <code>3sin(x)</code>, <code>x(x+1)</code> and <code>sin^2(x)</code> without a * sign. Do not type the <code>dx</code>.</li>
+        <li>The line under the input shows how the text was read. If it is not what you meant, add brackets: <code>1/(2x)</code> is not <code>1/2x</code>, and <code>e^(2x)</code> is not <code>e^2x</code>.</li>
+        <li>Methods used: constant multiple and sum rules, the table of basic integrals, substitution, integration by parts (including repeated and cyclic cases), partial fractions, completing the square, trigonometric powers and product identities, and trigonometric substitution.</li>
+        <li><strong>When no method applies</strong> the page says “No method found” and shows no answer. Many integrals (for example e<sup>x²</sup> or sin(x)/x) have no closed form at all, and a few that do are beyond these rules. For a definite integral you still get the number, clearly marked as <em>numeric</em>, from adaptive quadrature.</li>
+        <li>For a definite integral the exact value comes from the antiderivative at the limits, and a numeric value is computed separately; the two must agree. Singularities and infinite limits are checked, and an integral that diverges is reported as such.</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/cas.js"></script>
+  <script src="js/integrate.js"></script>
+  <script src="js/ui-kit.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/calculus-ui.js"></script>
+</body>
+</html>

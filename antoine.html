@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vapour pressure · I want to survive Chem Eng too</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main class="container">
+    <h1>Vapour pressure (Antoine)</h1>
+    <p class="lede">Vapour pressure at a given temperature, or boiling point at a given pressure. Pick a compound, or enter the constants from your own data tables.</p>
+
+    <div class="card">
+      <div class="row">
+        <div class="field">
+          <label for="compound">Compound</label>
+          <select id="compound"></select>
+        </div>
+        <div class="field">
+          <label for="mode">Calculate</label>
+          <select id="mode">
+            <option value="P">Vapour pressure at a temperature</option>
+            <option value="T">Boiling point at a pressure</option>
+          </select>
+        </div>
+      </div>
+
+      <fieldset id="custom" class="hidden" style="margin-top: 14px;">
+        <div class="row">
+          <div class="field"><label for="cA">A</label><input id="cA" type="text" inputmode="decimal" value="6.90565" autocomplete="off"></div>
+          <div class="field"><label for="cB">B</label><input id="cB" type="text" inputmode="decimal" value="1211.033" autocomplete="off"></div>
+          <div class="field"><label for="cC">C</label><input id="cC" type="text" inputmode="decimal" value="220.79" autocomplete="off"></div>
+        </div>
+        <div class="row" style="margin-top: 12px;">
+          <div class="field">
+            <label for="cForm">Equation form</label>
+            <select id="cForm">
+              <option value="log10">log₁₀ P = A − B / (T + C)</option>
+              <option value="ln">ln P = A − B / (T + C)</option>
+            </select>
+          </div>
+          <div class="field"><label for="cPU">P in</label><select id="cPU"></select></div>
+          <div class="field"><label for="cTU">T in</label><select id="cTU"></select></div>
+        </div>
+        <p class="small muted" style="margin: 10px 0 0;">Defaults are the common textbook form for benzene: log₁₀ P (mmHg) = 6.90565 − 1211.033 / (T (°C) + 220.79).</p>
+      </fieldset>
+
+      <div class="row" style="margin-top: 14px;">
+        <div class="field">
+          <label for="val" id="valLabel">Temperature</label>
+          <input id="val" type="text" inputmode="decimal" value="25" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="unit">Unit</label>
+          <select id="unit"></select>
+        </div>
+      </div>
+
+      <div class="result" id="resultBox" aria-live="polite">
+        <div class="big" id="result"></div>
+        <div class="small muted" id="others" style="margin-top: 6px;"></div>
+      </div>
+      <p class="warning hidden" id="warning"></p>
+      <p class="small muted" id="constants" style="margin: 12px 0 0;"></p>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <h2 style="margin: 0;">Vapour pressure curve</h2>
+        <label class="checkbox"><input type="checkbox" id="logY"> Log scale</label>
+      </div>
+      <svg id="chart" class="chart" aria-label="Vapour pressure against temperature"></svg>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/chem.js"></script>
+  <script src="js/chart.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/antoine.js"></script>
+</body>
+</html>

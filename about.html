@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About · I want to survive Chem Eng too</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <h1>About this site</h1>
+    <p class="lede">Made by a chem eng student, for chem eng students.</p>
+
+    <h2>How the numbers are made</h2>
+    <p>Every calculation is done by plain code in your browser: formulas, tables of constants and equation solvers. No AI is involved in producing an answer, and nothing is sent to a server. The same inputs always give the same result.</p>
+    <p>The mass balance solver counts the degrees of freedom first. It then solves the equations with Newton’s method and writes the solution out the way you would on paper: it picks an equation with one unknown, substitutes the numbers, and only groups equations together when they really have to be solved together.</p>
+
+    <h2>How it is tested</h2>
+    <p>The tests check unit factors, check each compound’s vapour pressure constants against known boiling points, check the Faraday’s law results against handbook values in grams per ampere-hour, and check the mass balance solver against flowsheets solved by hand. They also run hundreds of random flowsheets, and a separate piece of code re-checks every balance and every specification in each answer. The flowsheet drawing code is tested too: that the layout never overlaps units, that streams never run through a unit, and that what you draw reaches the solver unchanged. The energy balance data are checked against NIST-JANAF tables and handbook values. Every integral is checked by differentiating the answer, symbolically and at many random points, and the integrator is tested on a table of classic integrals and on thousands of random ones; when no method applies it says so, and a wrong answer is never shown. Double and triple integrals are checked a second way: the exact value must match a separate numerical integration of the original function, done independently of the symbolic working, and if the two disagree the exact value is not shown.</p>
+
+    <h2>Accuracy</h2>
+    <p>Built-in data (Antoine constants, standard electrode potentials, molar masses, heat capacities, heats of formation and latent heats) are standard published values, but your course may use slightly different ones, and exam answers follow your course data. The vapour pressure, electrochemistry and energy balance pages all let you enter your own values. When a result matters, check it against your course tables.</p>
+    <p>These tools are for checking your work and seeing a method, not for replacing the working you hand in.</p>
+
+    <h2>Privacy</h2>
+    <p>There are no accounts and no tracking. The mass balance page keeps your last flowsheet and data in your own browser, so a refresh does not lose them. It is never sent anywhere.</p>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/site.js"></script>
+</body>
+</html>

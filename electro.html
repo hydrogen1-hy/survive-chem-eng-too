@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Electrochemistry · I want to survive Chem Eng too</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <h1>Electrochemistry</h1>
+    <p class="lede">Faraday’s law with current efficiency, cell potentials from the Nernst equation, and the electrical energy it costs to make a product. Every result shows the equation with your numbers in it.</p>
+
+    <div class="card">
+      <h2>Product</h2>
+      <p>Pick what is being made, or enter your own molar mass and electrons per mole. The first and third calculators below use this.</p>
+      <div class="row">
+        <div class="field">
+          <label for="product">Product and reaction</label>
+          <select id="product"></select>
+        </div>
+        <div class="field">
+          <label for="M">Molar mass M (g/mol)</label>
+          <input id="M" type="text" inputmode="decimal" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="z">Electrons per mole, z</label>
+          <input id="z" type="text" inputmode="decimal" autocomplete="off">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Faraday’s law</h2>
+      <p>m = I · t · η · M / (z · F). Fill in three, solve for the fourth. η is the current (Faradaic) efficiency: the fraction of the charge that goes into the product you want.</p>
+      <div id="f-rows"></div>
+      <div class="row hidden" id="f-gas">
+        <div class="field">
+          <label for="gas-T">Gas temperature (°C)</label>
+          <input id="gas-T" type="text" inputmode="decimal" value="25" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="gas-P">Gas pressure (kPa)</label>
+          <input id="gas-P" type="text" inputmode="decimal" value="101.325" autocomplete="off">
+        </div>
+      </div>
+      <p class="warning hidden" id="f-warning"></p>
+      <div class="note" id="f-working"></div>
+    </div>
+
+    <div class="card">
+      <h2>Cell voltage</h2>
+      <p>Pick the reduction half-reaction at the cathode and the one at the anode (it runs in reverse there). E°cell = E°cathode − E°anode, then Nernst for your conditions.</p>
+      <div class="row">
+        <div class="field">
+          <label for="cath">Cathode (reduction)</label>
+          <select id="cath"></select>
+        </div>
+        <div class="field">
+          <label for="anod">Anode (written as reduction, runs as oxidation)</label>
+          <select id="anod"></select>
+        </div>
+      </div>
+      <div class="row hidden" id="c-custom" style="margin-top: 12px;">
+        <div class="field"><label for="cath-E">Cathode E° (V)</label><input id="cath-E" type="text" inputmode="decimal" value="0" autocomplete="off"></div>
+        <div class="field"><label for="cath-z">Cathode electrons</label><input id="cath-z" type="text" inputmode="decimal" value="2" autocomplete="off"></div>
+        <div class="field"><label for="anod-E">Anode E° (V)</label><input id="anod-E" type="text" inputmode="decimal" value="0" autocomplete="off"></div>
+        <div class="field"><label for="anod-z">Anode electrons</label><input id="anod-z" type="text" inputmode="decimal" value="2" autocomplete="off"></div>
+      </div>
+      <div class="row" style="margin-top: 12px;">
+        <div class="field">
+          <label for="n">Electrons in the balanced reaction, n</label>
+          <input id="n" type="text" inputmode="decimal" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="c-T">Temperature (°C)</label>
+          <input id="c-T" type="text" inputmode="decimal" value="25" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="c-Q">Reaction quotient Q</label>
+          <input id="c-Q" type="text" inputmode="decimal" value="1" autocomplete="off">
+        </div>
+      </div>
+      <p class="warning hidden" id="c-warning"></p>
+      <div id="c-out"></div>
+      <p class="note">Potentials are standard values at 25 °C versus the standard hydrogen electrode. They are typical textbook values and your course table may differ in the last digit, so check it before relying on a result. Choose “Custom” to enter your own.</p>
+    </div>
+
+    <div class="card">
+      <h2>Energy consumption</h2>
+      <p>Electrical energy per kg of product: z · F · V / (3600 · M · η). Uses the product above.</p>
+      <div class="row">
+        <div class="field">
+          <label for="e-V">Cell voltage (V)</label>
+          <input id="e-V" type="text" inputmode="decimal" value="3.5" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="e-eff">Current efficiency η (%)</label>
+          <input id="e-eff" type="text" inputmode="decimal" value="95" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="e-price">Electricity price (per kWh, optional)</label>
+          <input id="e-price" type="text" inputmode="decimal" placeholder="e.g. 0.08" autocomplete="off">
+        </div>
+      </div>
+      <p class="warning hidden" id="e-warning"></p>
+      <div id="e-out"></div>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/chem.js"></script>
+  <script src="js/electro.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/electro-ui.js"></script>
+</body>
+</html>

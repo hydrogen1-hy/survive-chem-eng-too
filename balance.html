@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mass balance solver · I want to survive Chem Eng too</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/energy.css">
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <h1>Mass balance solver</h1>
+    <p class="lede">Draw the flowsheet, enter what you know, and the rest is solved. It does the degrees-of-freedom analysis first, then writes the solution out step by step, the way you would on paper, and puts the answers on your drawing.</p>
+
+    <div class="card">
+      <div class="row">
+        <div class="field">
+          <label for="example">Start from an example</label>
+          <select id="example"></select>
+        </div>
+      </div>
+      <p class="note hidden" id="example-desc"></p>
+    </div>
+
+    <div class="card">
+      <h2>1. Components</h2>
+      <div class="field">
+        <label for="components">Species in the process, separated by commas</label>
+        <input id="components" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. Benzene, Toluene">
+      </div>
+      <p class="note">Use the same basis for every flow: all moles, or all mass. Reactions need moles. The unit (kmol/h, kg/s, ...) is yours; the solver only needs them to be consistent.</p>
+    </div>
+
+    <div class="card">
+      <h2>2. Draw the flowsheet</h2>
+      <p>Add the units, then join them with streams. A stream from one unit to another connects them. A stream that only enters a unit is a feed; one that only leaves is a product. Streams are named S1, S2, ... automatically, and you can rename anything.</p>
+      <div class="fs-tools" role="toolbar" aria-label="Drawing tools">
+        <div class="fs-group">
+          <button id="tool-select" class="secondary tool" type="button" aria-pressed="true">Select / move</button>
+          <button id="tool-draw" class="secondary tool" type="button" aria-pressed="false">Draw a stream</button>
+        </div>
+        <div class="fs-group" id="palette"><span class="label small">Add a unit:</span></div>
+        <div class="fs-group"><button id="tidy" class="secondary" type="button">Tidy layout</button></div>
+        <div class="fs-group"><label class="label small" for="pick">Edit:</label><select id="pick"></select></div>
+      </div>
+      <p class="fs-hint" id="fs-hint"></p>
+      <div class="fs-wrap" id="fs-wrap">
+        <svg id="fs-svg" class="fs-svg" tabindex="0" role="group" aria-label="Flowsheet drawing. Use the buttons above and the edit panel below the drawing to add and change units and streams."></svg>
+      </div>
+      <div class="fs-msg hidden" id="fs-msg" role="status"></div>
+      <div class="inspector" id="inspector"></div>
+    </div>
+
+    <div class="card" id="energy-card">
+      <h2>Energy balance <span class="muted small">(optional)</span></h2>
+      <p><label class="checkbox"><input type="checkbox" id="en-on"> Also do the energy balances. Give temperatures and heat duties, and an energy balance is added for every unit.</label></p>
+      <div id="en-box" class="hidden">
+        <p class="small muted">Each stream gets a temperature and each unit a heat duty Q (heat added, in the unit you choose; negative means heat removed). Stream enthalpies come from heat capacities, latent heats and heats of formation: typical published values (Felder and Rousseau, Appendix B), plus anything you changed on the <a href="energy.html">Energy balances page</a> (Data tab). Check them against your course table.</p>
+        <div class="row">
+          <div class="field"><label for="en-flow">Unit of the flows above</label><select id="en-flow"></select></div>
+          <div class="field"><label for="en-temp">Temperature unit</label><select id="en-temp"></select></div>
+          <div class="field"><label for="en-power">Heat duty unit</label><select id="en-power"></select></div>
+          <div class="field"><label for="en-P">Pressure (kPa)</label><input id="en-P" type="text" inputmode="decimal" autocomplete="off" value="101.325"></div>
+        </div>
+        <h3>Species for each component</h3>
+        <p class="small muted">The energy balance needs to know what each component is. A name that matches a species in the data table (H2O, Water, CH4, ...) is picked automatically; choose the species otherwise. Streams are in the phase their temperature gives (below the boiling point liquid, above it gas) unless you choose a phase for the stream when you select it in the drawing.</p>
+        <div id="en-species"></div>
+        <p class="warning hidden" id="en-warning"></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>3. What you know</h2>
+      <p>Flows, compositions, recoveries, conversions. Each one is an extra equation.</p>
+      <div id="specs"></div>
+      <p><button id="add-spec" class="secondary" type="button">+ Add a specification</button></p>
+    </div>
+
+    <p class="actions">
+      <button id="solve" type="button">Solve</button>
+      <button id="clear" class="secondary" type="button">Clear everything</button>
+    </p>
+
+    <div class="feedback warn hidden" id="stale">You have changed the flowsheet since this was solved. Press Solve to update the answers.</div>
+    <div id="results" aria-live="polite"></div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/chem.js"></script>
+  <script src="js/energy.js"></script>
+  <script src="js/balance.js"></script>
+  <script src="js/flowsheet.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/balance-ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+/* Multiple integrals page (multi.html). Builds on style.css and calculus.css, so it follows light and dark mode. */
+
+/* ── limits ── */
+.limits { display: grid; gap: 10px; }
+.limit-row { display: grid; grid-template-columns: minmax(6.5em, auto) 1fr 1fr; gap: 8px 12px; align-items: end; }
+.limit-row .vname { font: 700 1.05rem var(--sans); color: var(--heading); padding-bottom: 9px; white-space: nowrap; }
+.limit-row .vname small { display: block; font: 400 0.78rem var(--sans); color: var(--muted); white-space: normal; }
+.limit-row .lab { font-size: 0.82rem; color: var(--muted); display: block; margin-bottom: 2px; }
+.limit-row input.invalid { border-color: var(--bad); background: var(--bad-bg); }
+.field-msg { grid-column: 1 / -1; margin: -4px 0 0; font-size: 0.9rem; color: var(--bad); font-weight: 700; }
+.setup { margin: 12px 0 0; padding: 8px 12px; background: var(--box); border-left: 3px solid var(--curve); font: 0.95rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; min-height: 1.5em; }
+fieldset.also { margin: 16px 0 0; padding: 8px 12px 10px; border: 1px solid var(--border); }
+fieldset.also legend { padding: 0 6px; font-weight: 700; font-size: 0.9rem; color: var(--muted); }
+fieldset.also .checkbox { display: block; margin: 4px 0; }
+input.invalid { border-color: var(--bad); }
+
+/* ── answer extras ── */
+.answer .setup-line { font: 0.92rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--muted); margin: 0 0 8px; overflow-wrap: anywhere; }
+.answer .checked { font-size: 0.92rem; color: var(--muted); margin-top: 6px; }
+.apps { margin-top: 12px; }
+.apps table { width: 100%; }
+.apps td:first-child { white-space: nowrap; width: 1%; font-weight: 700; }
+.apps td { overflow-wrap: anywhere; }
+.alt-actions { margin: 14px 0 0; }
+
+/* ── pictures ── */
+.plot-box { margin-top: 10px; }
+.chart .region-fill { fill: var(--curve); opacity: 0.2; stroke: none; }
+.chart .region-bad { fill: var(--bad); opacity: 0.3; stroke: none; }
+.chart .region-edge { fill: none; stroke: var(--curve); stroke-width: 2.2; stroke-linejoin: round; }
+.chart .arrow-head { fill: var(--mark); }
+.chart .sweep { fill: none; stroke: var(--mark); stroke-width: 1.4; opacity: 0.9; }
+.chart .s3-lo { fill: none; stroke: var(--muted); stroke-width: 1; opacity: 0.7; }
+.chart .s3-hi { fill: none; stroke: var(--curve); stroke-width: 1.2; opacity: 0.95; }
+.chart .s3-side { fill: none; stroke: var(--mark); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.75; }
+.chart .axis3 { stroke: var(--text); stroke-width: 1.2; }
+.chart.draggable { cursor: grab; touch-action: none; }
+.chart.draggable:active { cursor: grabbing; }
+.view-controls { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 8px 0 0; align-items: center; font-size: 0.9rem; }
+.view-controls label { display: flex; align-items: center; gap: 8px; }
+.view-controls input[type="range"] { width: 150px; min-height: 0; padding: 0; }
+
+/* ── working ── */
+.work-level { margin: 14px 0 0; padding: 0 0 4px; }
+.work-level h3 { margin: 0 0 6px; }
+.work-level .int-line { font-weight: 700; overflow-wrap: anywhere; margin: 2px 0; }
+.work-level .eq { margin: 2px 0; overflow-wrap: anywhere; }
+.work-level .result-line { margin: 6px 0 0; color: var(--heading); font-weight: 700; overflow-wrap: anywhere; }
+.work-level details { margin: 8px 0 0; }
+.work-level summary { cursor: pointer; color: var(--link); font-size: 0.95rem; }
+.convert-box { margin: 10px 0 0; padding: 10px 14px; background: var(--box); border: 1px solid var(--border); }
+.convert-box .eq { margin: 2px 0; overflow-wrap: anywhere; }
+.convert-box strong { display: block; margin-bottom: 4px; }
+.piece { margin: 12px 0 0; padding: 8px 12px; border-left: 3px solid var(--curve); background: var(--box); }
+.piece .eq { margin: 2px 0; overflow-wrap: anywhere; }
+
+@media (max-width: 640px) {
+  .limit-row { grid-template-columns: 1fr 1fr; }
+  .limit-row .vname { grid-column: 1 / -1; padding-bottom: 0; }
+  .view-controls input[type="range"] { width: 120px; }
+}

@@ -1,0 +1,72 @@
+/* Energy balance pages. Uses the colour variables of css/style.css, so light and dark mode follow it. */
+
+/* ── notice about the data ── */
+.data-notice { margin: 0 0 22px; padding: 12px 16px; border: 1px solid var(--border); border-left: 4px solid var(--navy); background: var(--box); font-size: 0.95rem; max-width: 80ch; }
+.data-notice strong { color: var(--heading); }
+
+/* ── tabs ── */
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; margin: 22px 0 0; border-bottom: 1px solid var(--border); }
+.tabs button {
+  background: var(--box); color: var(--text); border: 1px solid var(--border); border-bottom: 0;
+  border-radius: 3px 3px 0 0; padding: 9px 16px; min-height: 42px; font-weight: 700; font-size: 0.95rem; margin-bottom: -1px;
+}
+.tabs button:hover { background: var(--hl); border-color: var(--border); }
+.tabs button[aria-selected="true"] { background: var(--bg); color: var(--heading); border-bottom: 1px solid var(--bg); box-shadow: inset 0 3px 0 var(--navy); }
+.tabpanel { border-top: 0; margin-top: 0; }
+@media (max-width: 520px) { .tabs button { flex: 1 1 45%; padding: 8px 8px; } }
+
+.field.wide { flex: 1 1 100%; }
+.eq-inline, .eq { font: 0.92rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+.content h3 { margin-top: 26px; }
+.content .card h3:first-of-type { margin-top: 18px; }
+
+/* ── species / stream rows ── */
+.srow { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: flex-end; margin: 0 0 10px; }
+.srow .field { flex: 1 1 120px; }
+.srow .f-sp { flex: 2 1 190px; }
+.srow .f-amt { flex: 1 1 110px; }
+.srow .f-ph { flex: 1 1 110px; }
+.srow .f-T { flex: 1 1 110px; }
+.srow button.remove { flex: 0 0 auto; padding: 8px 14px; margin-left: auto; }
+.stream { border: 1px solid var(--border); background: var(--bg); padding: 14px 16px; margin: 0 0 14px; }
+.stream > .head { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-bottom: 12px; }
+.stream > .head .field { flex: 1 1 130px; }
+.stream > .head .f-name { flex: 1 1 150px; max-width: 220px; }
+.stream details { margin: 4px 0 12px; }
+.stream summary { cursor: pointer; color: var(--link); font-size: 0.9rem; }
+.stream details .row { margin-top: 10px; }
+.stream .sublabel { font-size: 0.85rem; font-weight: 700; margin: 4px 0 8px; color: var(--muted); }
+
+/* ── results ── */
+.out-block { margin-top: 18px; }
+.out-block h3 { margin-top: 18px; }
+.warn-list { margin: 12px 0 0; padding: 0; list-style: none; }
+.warn-list li { padding: 8px 12px; margin: 0 0 6px; border: 1px solid var(--bad-line); background: var(--bad-bg); color: var(--bad); font-size: 0.9rem; font-weight: 700; }
+.note-list li { border-color: var(--border); background: var(--hl); color: var(--text); font-weight: 400; }
+.result table td:first-child { color: var(--muted); }
+.result .two { margin-top: 12px; padding: 10px 12px; border: 1px solid var(--border); background: var(--hl); font-size: 0.93rem; }
+.eqlabel { font-size: 0.88rem; color: var(--muted); margin: 8px 0 2px; }
+.steps .eqlabel:first-of-type { margin-top: 0; }
+.eq.main { color: var(--text); }
+.steps-note { font-size: 0.9rem; color: var(--muted); max-width: 80ch; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 4px 0 0; }
+.stats div { font-size: 0.93rem; }
+.stats strong { font-variant-numeric: tabular-nums; }
+
+/* ── data tables ── */
+.datatable { font-size: 0.88rem; min-width: 640px; }
+.datatable th, .datatable td { padding: 5px 7px; white-space: nowrap; }
+.datatable input[type="text"] { min-height: 32px; padding: 4px 6px; width: 7.2em; font-size: 0.88rem; }
+.datatable input.wide { width: 11em; }
+.datatable input.edited { outline: 2px solid var(--mark); outline-offset: -1px; }
+.datatable td.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+.datatable .tag { font-size: 0.78rem; color: var(--muted); }
+.datatable tr.yours td { background: var(--hl); }
+.datatable button { padding: 3px 9px; min-height: 28px; font-size: 0.8rem; }
+.datatable .sp-name { font-weight: 700; }
+.datatable .sub { display: block; font-weight: 400; font-size: 0.78rem; color: var(--muted); }
+.datatable .note-row td { white-space: normal; color: var(--muted); font-size: 0.8rem; }
+.add-box { margin: 18px 0 0; padding: 14px 16px; border: 1px solid var(--border); background: var(--box); }
+.add-box h3 { margin: 0 0 10px; }
+.exp-row { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; margin: 10px 0 0; font-size: 0.9rem; }
+.exp-row input.exp { width: 3.6em; min-height: 36px; padding: 4px 6px; text-align: center; }

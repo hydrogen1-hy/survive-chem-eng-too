@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Roadmap · I want to survive Chem Eng too</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <h1>Roadmap</h1>
+    <p class="lede">The plan, built one course at a time. This is a plan, not a promise: each calculator only goes live when it has been tested against hand-solved problems. The first target is second year, first term.</p>
+
+    <h2>Process engineering</h2>
+    <ul class="plain">
+      <li><span class="status">Available:</span> <a href="balance.html">mass balances</a> on a flowsheet you draw yourself, with degrees-of-freedom analysis, recycle and purge, and the answers written on your drawing; <a href="energy.html">energy balances</a> (sensible and latent heat, heats of reaction, adiabatic flame temperature, the steady-flow balance), also on the drawn flowsheet with stream temperatures and heat duties; <a href="electro.html">electrochemistry</a> (Faraday’s law, Faradaic efficiency, Nernst, energy per kg)</li>
+      <li>Next: boiling-point energy balances on the flowsheet, where the outlet is part vapour and part liquid at an unknown temperature</li>
+      <li>Flash calculations and Raoult’s law, humidity and psychrometrics, heat exchangers (LMTD, effectiveness–NTU)</li>
+    </ul>
+
+    <h2>Fluid mechanics</h2>
+    <ul class="plain">
+      <li>Manometers, hydrostatic force on surfaces, buoyancy</li>
+      <li>Bernoulli and the mechanical energy balance with head loss</li>
+      <li>Pipe flow: Reynolds number, friction factor, minor losses, series and parallel pipes</li>
+      <li>Pumps, system curves and the operating point; orifice and venturi meters</li>
+      <li>Dimensional analysis (Buckingham Pi)</li>
+    </ul>
+
+    <h2>Calculus 3</h2>
+    <ul class="plain">
+      <li><span class="status">Available:</span> <a href="calculus.html">integrals and derivatives</a> with the method shown (substitution, parts, partial fractions, trig, each step written out). Every answer is checked by differentiating it. When no method applies it says so and gives the numerical value instead of guessing. Partial derivatives are there too, with the rule named at each step</li>
+      <li><span class="status">Available:</span> <a href="multi.html">double and triple integrals</a> in Cartesian, polar, cylindrical and spherical coordinates, with the Jacobian, one worked integral per variable, a plot of the region or solid, and a button that swaps the order of integration. Every answer is checked against a separate numerical integration of the original function</li>
+      <li>Gradients as vectors, directional derivatives, tangent planes</li>
+      <li>Optimisation and Lagrange multipliers, line integrals and Green’s theorem</li>
+    </ul>
+
+    <h2>Statistics</h2>
+    <ul class="plain">
+      <li>Normal, t, chi-square, F, binomial and Poisson distributions: probabilities and quantiles, with the area shaded on the plot</li>
+      <li>Confidence intervals and hypothesis tests with the working shown</li>
+      <li>Linear regression with residuals, correlation, ANOVA</li>
+    </ul>
+
+    <h2>Inorganic chemistry</h2>
+    <ul class="plain">
+      <li>Electron configurations and periodic trends</li>
+      <li>Crystal field splitting, CFSE and spin states; term symbols</li>
+      <li>Molecular orbital diagrams and bond order</li>
+      <li>Crystal lattices and packing, Born–Haber cycles</li>
+    </ul>
+
+    <h2>Later</h2>
+    <ul class="plain">
+      <li>Thermodynamics (steam tables, equations of state, vapour–liquid equilibrium), reactor design, heat and mass transfer, separations</li>
+    </ul>
+
+    <h2>How each calculator is built</h2>
+    <ul class="plain">
+      <li>Plain code only: formulas, constants tables and equation solvers. No AI, no server.</li>
+      <li>The working is shown, not just the answer.</li>
+      <li>Tested against problems solved by hand, plus random cases checked by an independent calculation.</li>
+      <li>Where a data table is used, it can be overridden with the values from your own course.</li>
+    </ul>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/site.js"></script>
+</body>
+</html>

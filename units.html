@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unit converter · I want to survive Chem Eng too</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main class="container">
+    <h1>Unit converter</h1>
+    <p class="lede">Pressure, energy, power, flow rates, viscosity, density, temperature, and amounts (mol, kmol, lbmol).</p>
+
+    <div class="card">
+      <div class="row">
+        <div class="field">
+          <label for="cat">Quantity</label>
+          <select id="cat"></select>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 14px;">
+        <div class="field">
+          <label for="val">Value</label>
+          <input id="val" type="text" inputmode="decimal" value="1" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="from">From</label>
+          <select id="from"></select>
+        </div>
+        <button id="swap" class="secondary" type="button" aria-label="Swap units" title="Swap units">⇄</button>
+        <div class="field">
+          <label for="to">To</label>
+          <select id="to"></select>
+        </div>
+      </div>
+
+      <div class="result" aria-live="polite">
+        <div class="big" id="result"></div>
+      </div>
+      <p class="note hidden" id="note">
+        This converts temperature <strong>readings</strong>. For a temperature <strong>difference</strong> (ΔT), the scale factors apply without the offset: 1 °C = 1 K = 1.8 °F = 1.8 °R.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>All units</h2>
+      <table>
+        <thead><tr><th>Unit</th><th style="text-align:right">Value</th></tr></thead>
+        <tbody id="all"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/chem.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/units.js"></script>
+</body>
+</html>

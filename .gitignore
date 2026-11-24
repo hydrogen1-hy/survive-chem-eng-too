@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Local tooling config (preview server settings for the Claude app)
+.claude/
+
+# If you ever add Node tooling
+node_modules/
+*.log

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Double and triple integrals · I want to survive Chem Eng too</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/calculus.css">
+  <link rel="stylesheet" href="css/multi.css">
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <h1>Double and triple integrals</h1>
+    <p class="lede">Write the limits the way you would on paper, innermost variable first, and get the answer with the working: one integral per variable, each with its rule-by-rule steps. A picture of the region shows whether your limits describe the region you meant. Polar, cylindrical and spherical coordinates are done for you, including the Jacobian. Every answer is checked against a separate numerical integration of the original function.</p>
+
+    <div class="tabs" role="tablist" aria-label="Kind of integral">
+      <button type="button" role="tab" id="tab-double" aria-controls="panel" aria-selected="true">Double integral</button>
+      <button type="button" role="tab" id="tab-triple" aria-controls="panel" aria-selected="false" tabindex="-1">Triple integral</button>
+    </div>
+
+    <section id="panel" role="tabpanel" aria-labelledby="tab-double">
+      <div class="card">
+        <h2 id="form-title">Double integral</h2>
+        <div class="row">
+          <div class="field">
+            <label for="sys">Coordinates</label>
+            <select id="sys"></select>
+          </div>
+          <div class="field">
+            <label for="ord">Order of integration (innermost first)</label>
+            <select id="ord"></select>
+          </div>
+        </div>
+        <div class="field" style="margin-top: 12px;">
+          <label for="f">Function to integrate</label>
+          <input id="f" type="text" autocomplete="off" spellcheck="false" autocapitalize="off" placeholder="e.g. x^2 + y^2" value="x+y" aria-describedby="f-read">
+        </div>
+        <div class="parse-note" id="f-read" aria-live="polite"></div>
+        <p class="small muted" id="f-help" style="margin: 6px 0 0;"></p>
+
+        <h3 style="margin-top: 18px;">Limits</h3>
+        <p class="small muted" id="lim-help" style="margin: 0 0 8px;"></p>
+        <div id="limits" class="limits"></div>
+        <p class="setup" id="setup" aria-live="polite"></p>
+
+        <fieldset class="also">
+          <legend>Also work out (optional)</legend>
+          <label class="checkbox"><input type="checkbox" id="also-size"> <span id="also-size-label">the area of the region</span></label>
+          <label class="checkbox"><input type="checkbox" id="also-average"> the average value of the function over the region</label>
+          <label class="checkbox"><input type="checkbox" id="also-centroid"> the centroid of the region</label>
+        </fieldset>
+
+        <p class="actions" style="margin: 18px 0 14px;">
+          <button type="button" id="go">Solve</button>
+          <button type="button" id="clear" class="secondary">Clear</button>
+        </p>
+        <div class="label small">Examples (click one)</div>
+        <div class="chips" id="examples"></div>
+        <p class="small muted" id="ex-desc" style="margin: 10px 0 0;"></p>
+      </div>
+      <div id="out" aria-live="polite"></div>
+    </section>
+
+    <div class="card">
+      <h2>How to use this page, and what to expect</h2>
+      <ul class="plain">
+        <li><strong>Limits are written innermost first.</strong> The limits of a variable may use only the variables that are integrated after it, so the outermost limits are numbers. For ∫₀¹ ∫ₓ² ˣ f dy dx: x is outermost (0 to 1), y is inner (x² to x).</li>
+        <li><strong>Type the function, not the Jacobian.</strong> In polar, cylindrical and spherical coordinates you may type f in x, y, z (it is converted for you) or in r, θ, ρ, φ. The extra factor (r, or ρ² sin φ) is added automatically and shown in the working.</li>
+        <li>Typing: <code>x^2</code>, <code>sqrt(x)</code>, <code>e^(-x^2)</code>, <code>sin(x)</code>, <code>pi</code>, <code>inf</code> for ∞. The Greek names <code>theta</code>, <code>rho</code>, <code>phi</code> (or θ, ρ, φ) work for the angles and the radius. Other letters, such as <code>a</code> or <code>R</code>, are treated as positive constants and the answer is a formula in them.</li>
+        <li><strong>The picture is a check on your setup.</strong> If the shaded region is not the one in the problem, the limits are wrong. Red means the lower limit is above the upper limit there, so that part counts with a minus sign. The arrows show the direction of the inner integral.</li>
+        <li><strong>How an answer is checked.</strong> The exact value comes from the antiderivatives. A completely separate number is computed by nested numerical integration of the original function (after the coordinate change and with the Jacobian applied independently). If the two disagree the exact value is not shown.</li>
+        <li><strong>When the page cannot find a closed form</strong> it says so and gives only a numeric value, clearly marked. For a double integral in x and y, “Show the other order” turns the region around and tries again: the classic way to integrate e<sup>y²</sup>.</li>
+        <li>Not done here: regions that are not given as limits (such as “inside the sphere and above the cone”) need to be turned into limits first. Changing the order needs finite curves that can be solved for the other variable (sums, products, powers, roots, exponentials, logarithms and simple trigonometric functions of one variable).</li>
+      </ul>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/cas.js"></script>
+  <script src="js/integrate.js"></script>
+  <script src="js/multi.js"></script>
+  <script src="js/ui-kit.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/multi-ui.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+/* Calculus page (calculus.html). Uses the colour variables from style.css so it follows light and dark mode. */
+
+/* ── tabs ── */
+.tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--border); margin: 0 0 20px; }
+.tabs button {
+  background: transparent; color: var(--text); border: 1px solid transparent; border-bottom: 0; border-radius: 3px 3px 0 0;
+  padding: 9px 22px; min-height: 44px; margin-bottom: -1px; font: 700 1rem var(--sans);
+}
+.tabs button:hover { background: var(--hl); border-color: transparent; }
+.tabs button[aria-selected="true"] { background: var(--bg); border-color: var(--border); border-bottom: 1px solid var(--bg); color: var(--heading); }
+
+/* ── form extras ── */
+.field.narrow { flex: 0 1 150px; }
+code { font: 0.92em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--box); padding: 1px 5px; border: 1px solid var(--border); border-radius: 3px; }
+.parse-note { margin: 8px 0 0; font-size: 0.92rem; color: var(--muted); min-height: 1.5em; overflow-wrap: anywhere; }
+.parse-note .read { color: var(--text); font-weight: 700; }
+.parse-note.bad { color: var(--bad); }
+.parse-note.bad .msg { font-weight: 700; }
+.parse-note .pointer { display: block; margin-top: 4px; font: 0.92rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere; }
+.parse-note mark { background: var(--bad-bg); color: var(--bad); outline: 1px solid var(--bad-line); }
+.parse-note .hint { display: block; margin-top: 3px; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.chips button { padding: 6px 12px; min-height: 38px; font-size: 0.9rem; font-weight: 400; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-align: left; }
+.chips .group { flex: 1 0 100%; font: 700 0.8rem var(--sans); letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+.chips .group:first-child { margin-top: 0; }
+
+/* ── answer ── */
+.answer .big { font-family: var(--sans); }
+.answer .kind { display: block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin: 0 0 3px; }
+.answer .row-pair { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+.answer .row-pair:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+.answer .big.sm { font-size: clamp(1.2rem, 4.5vw, 1.6rem); }
+.numeric-tag { display: inline-block; font: 700 0.72rem var(--sans); letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); border-radius: 3px; padding: 1px 6px; margin-left: 6px; vertical-align: middle; }
+.eval-lines { margin: 8px 0 0; }
+.eval-lines .eq { margin-bottom: 4px; }
+.bad-box, .warn-box { margin: 14px 0 0; padding: 10px 14px; border: 1px solid; }
+.bad-box { color: var(--bad); background: var(--bad-bg); border-color: var(--bad-line); }
+.warn-box { color: var(--text); background: var(--hl); border-color: var(--border); }
+.bad-box strong { display: block; margin-bottom: 2px; }
+.warn-box ul, .bad-box ul { margin: 4px 0 0; padding-left: 20px; }
+
+/* ── steps (nested, numbered 1, 1.1, 1.1.1 ...) ── */
+.csteps { list-style: none; counter-reset: cs; padding: 0; margin: 10px 0 0; }
+.csteps .csteps { margin: 10px 0 4px 6px; padding-left: 16px; border-left: 2px solid var(--border); }
+.csteps > li { counter-increment: cs; margin: 0 0 16px; }
+.csteps .title { display: block; font-weight: 700; margin-bottom: 4px; color: var(--heading); }
+.csteps .title::before { content: counters(cs, ".") "  "; color: var(--muted); font-weight: 700; margin-right: 2px; }
+.csteps .eq { margin: 1px 0; }
+.csteps .eq.int { font-weight: 700; color: var(--text); }
+.csteps .eq.then { color: var(--muted); }
+.csteps .eq.out { color: var(--heading); font-weight: 700; }
+.csteps .formula { font-size: 0.88rem; color: var(--muted); margin: 2px 0 4px; overflow-wrap: anywhere; }
+.csteps .formula span { font-weight: 700; }
+.csteps .line { margin: 2px 0; font-size: 0.97rem; overflow-wrap: anywhere; }
+.csteps .combine { margin: 8px 0 0; padding: 6px 10px; background: var(--box); border-left: 3px solid var(--curve); font-size: 0.95rem; overflow-wrap: anywhere; }
+.steps-note { font-size: 0.9rem; color: var(--muted); margin: 0 0 6px; max-width: 80ch; }
+
+/* ── plot ── */
+.chart .line2 { fill: none; stroke: var(--mark); stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; stroke-dasharray: 7 4; }
+.chart .area { fill: var(--curve); opacity: 0.22; stroke: none; }
+.chart .area-neg { fill: var(--mark); opacity: 0.2; stroke: none; }
+.chart .zero-line { stroke: var(--muted); stroke-width: 1; }
+.chart .legend-text { fill: var(--text); font: 12px var(--sans); }
+.chart .legend-line { fill: none; stroke: var(--curve); stroke-width: 2.5; }
+.chart .legend-line.dashed { stroke: var(--mark); stroke-dasharray: 7 4; }
+.chart .limit-line { stroke: var(--heading); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.8; }
+.chart .note-text { fill: var(--muted); font: 12px var(--sans); }
+.plot-wrap { margin-top: 6px; }
+.plot-caption { font-size: 0.88rem; color: var(--muted); margin: 6px 0 0; }
+
+table.grad { width: 100%; }
+table.grad td:first-child { white-space: nowrap; width: 1%; font-weight: 700; }
+table.grad td { overflow-wrap: anywhere; }
+
+@media (max-width: 520px) {
+  .tabs button { padding: 9px 14px; }
+  .field.narrow { flex: 1 1 100%; }
+  .csteps .csteps { padding-left: 10px; margin-left: 2px; }
+}

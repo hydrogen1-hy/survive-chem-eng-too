@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Energy balances · I want to survive Chem Eng too</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/energy.css">
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <h1>Energy balances</h1>
+    <p class="lede">Sensible heat, phase changes, heats of reaction, adiabatic reactor and flame temperatures, and the steady-flow energy balance on a unit. Every result shows the equation with your numbers in it, step by step.</p>
+
+    <div class="data-notice" id="data-notice">
+      <strong>About the data.</strong> The built-in heat capacities, heats of formation and latent heats are typical published values (Felder and Rousseau, <em>Elementary Principles of Chemical Processes</em>, Appendix B): check against your course table. Textbooks differ in the last digit. The Data tab lets you type your own values, and every calculation uses them.
+    </div>
+
+    <div class="card" id="units-card">
+      <h2>Units</h2>
+      <p class="small muted">These apply to the fields and to the headline answers. The working below each answer is always in °C, kJ/mol, mol/s and kW.</p>
+      <div class="row">
+        <div class="field"><label for="u-temp">Temperature</label><select id="u-temp"></select></div>
+        <div class="field"><label for="u-flow">Molar flow</label><select id="u-flow"></select></div>
+        <div class="field"><label for="u-press">Pressure</label><select id="u-press"></select></div>
+        <div class="field"><label for="u-energy">Energy per amount</label><select id="u-energy"></select></div>
+        <div class="field"><label for="u-power">Power</label><select id="u-power"></select></div>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Calculators" id="tabs">
+      <button type="button" role="tab" id="tab-sensible" aria-controls="panel-sensible" aria-selected="true">Sensible heat</button>
+      <button type="button" role="tab" id="tab-phase" aria-controls="panel-phase" aria-selected="false" tabindex="-1">Phase change</button>
+      <button type="button" role="tab" id="tab-reaction" aria-controls="panel-reaction" aria-selected="false" tabindex="-1">Heat of reaction</button>
+      <button type="button" role="tab" id="tab-reactor" aria-controls="panel-reactor" aria-selected="false" tabindex="-1">Reactor and flame temperature</button>
+      <button type="button" role="tab" id="tab-open" aria-controls="panel-open" aria-selected="false" tabindex="-1">Steady-flow balance</button>
+      <button type="button" role="tab" id="tab-data" aria-controls="panel-data" aria-selected="false" tabindex="-1">Data</button>
+    </div>
+
+    <!-- 1. sensible heat -->
+    <section class="tabpanel card" id="panel-sensible" role="tabpanel" aria-labelledby="tab-sensible">
+      <h2>Sensible heat</h2>
+      <p>ΔH = ∫ Cp dT between two temperatures, for one species or a mixture. For a mixture give mole fractions, or flows (only the ratios matter): ΔH = Σ yᵢ ΔHᵢ. For an ideal gas it also gives ΔU = ΔH − R ΔT.</p>
+      <div id="s-species"></div>
+      <p><button type="button" class="secondary" id="s-add">+ Add a species</button></p>
+      <div class="row">
+        <div class="field"><label for="s-phase">Phase (the same at both temperatures)</label>
+          <select id="s-phase"><option value="g">Gas</option><option value="l">Liquid</option><option value="s">Solid</option></select></div>
+        <div class="field"><label for="s-T1">From temperature <span class="tu"></span></label><input id="s-T1" class="tin" type="text" inputmode="decimal" autocomplete="off" value="25"></div>
+        <div class="field"><label for="s-T2">To temperature <span class="tu"></span></label><input id="s-T2" class="tin" type="text" inputmode="decimal" autocomplete="off" value="100"></div>
+        <div class="field"><label for="s-flow">Molar flow, optional (<span class="fu"></span>)</label><input id="s-flow" class="fin" type="text" inputmode="decimal" autocomplete="off" placeholder="to get the duty Q"></div>
+      </div>
+      <p class="warning hidden" id="s-error"></p>
+      <div id="s-out" aria-live="polite"></div>
+    </section>
+
+    <!-- 2. phase change -->
+    <section class="tabpanel card hidden" id="panel-phase" role="tabpanel" aria-labelledby="tab-phase">
+      <h2>Phase change</h2>
+      <p>The enthalpy change of one species between two states, where the path may cross its melting or boiling point. The path is shown step by step: heat each phase up to the transition, change phase (ΔHfus or ΔHvap), then heat on.</p>
+      <div class="row">
+        <div class="field"><label for="p-example">Start from an example</label><select id="p-example"></select></div>
+      </div>
+      <div class="row" style="margin-top: 12px;">
+        <div class="field"><label for="p-species">Species</label><select id="p-species"></select></div>
+        <div class="field"><label for="p-P">Pressure (<span class="pu"></span>)</label><input id="p-P" class="pin" type="text" inputmode="decimal" autocomplete="off"></div>
+        <div class="field"><label for="p-flow">Molar flow, optional (<span class="fu"></span>)</label><input id="p-flow" class="fin" type="text" inputmode="decimal" autocomplete="off" placeholder="to get the duty Q"></div>
+      </div>
+      <div class="row" style="margin-top: 12px;">
+        <div class="field"><label for="p-T1">Initial temperature <span class="tu"></span></label><input id="p-T1" class="tin" type="text" inputmode="decimal" autocomplete="off"></div>
+        <div class="field"><label for="p-ph1">Initial phase</label><select id="p-ph1"></select></div>
+        <div class="field"><label for="p-T2">Final temperature <span class="tu"></span></label><input id="p-T2" class="tin" type="text" inputmode="decimal" autocomplete="off"></div>
+        <div class="field"><label for="p-ph2">Final phase</label><select id="p-ph2"></select></div>
+      </div>
+      <p class="warning hidden" id="p-error"></p>
+      <div id="p-out" aria-live="polite"></div>
+      <h3>Latent heat at a temperature</h3>
+      <p class="small muted">ΔHvap at any temperature below the critical temperature by the Watson correlation, ΔHv(T) = ΔHv(Tb) [(1 − T/Tc)/(1 − Tb/Tc)]^0.38, from the value at the normal boiling point. The heat of fusion is tabulated at the melting point.</p>
+      <div class="row">
+        <div class="field"><label for="l-species">Species</label><select id="l-species"></select></div>
+        <div class="field"><label for="l-kind">Change</label><select id="l-kind"><option value="vap">Vaporisation</option><option value="fus">Fusion (melting)</option></select></div>
+        <div class="field"><label for="l-T">Temperature <span class="tu"></span></label><input id="l-T" class="tin" type="text" inputmode="decimal" autocomplete="off" value="25"></div>
+      </div>
+      <p class="warning hidden" id="l-error"></p>
+      <div id="l-out" aria-live="polite"></div>
+    </section>
+
+    <!-- 3. reactions -->
+    <section class="tabpanel card hidden" id="panel-reaction" role="tabpanel" aria-labelledby="tab-reaction">
+      <h2>Heat of reaction</h2>
+      <p>ΔH°rxn at 25 °C from standard heats of formation, ΔH°rxn = Σ νᵢ ΔH°f,ᵢ, and at another temperature by the path: reactants to 25 °C, react, products to the new temperature. Write the reaction with formulas and an arrow, for example <span class="eq">CH4 + 2 O2 -> CO2 + 2 H2O</span>. A phase in brackets, such as <span class="eq">H2O(g)</span>, fixes the phase; without one each species is taken as it exists at 25 °C and 1 atm (liquid water).</p>
+      <div class="row">
+        <div class="field"><label for="r-example">Start from an example</label><select id="r-example"></select></div>
+      </div>
+      <div class="row" style="margin-top: 12px;">
+        <div class="field wide"><label for="r-text">Reaction</label><input id="r-text" type="text" autocomplete="off" spellcheck="false" value="CH4 + 2 O2 -> CO2 + 2 H2O"></div>
+      </div>
+      <div class="row" style="margin-top: 12px;">
+        <div class="field"><label for="r-T">Temperature of the reaction <span class="tu"></span> (blank = 25 °C)</label><input id="r-T" class="tin" type="text" inputmode="decimal" autocomplete="off" placeholder="25 °C standard"></div>
+        <div class="field"><label for="r-P">Pressure (<span class="pu"></span>)</label><input id="r-P" class="pin" type="text" inputmode="decimal" autocomplete="off"></div>
+        <div class="field"><label for="r-extent">Extent of reaction ξ, optional (<span class="au"></span>)</label><input id="r-extent" class="fin" type="text" inputmode="decimal" autocomplete="off" placeholder="to get the total heat Q"></div>
+      </div>
+      <p style="margin-top: 12px;"><label class="checkbox"><input type="checkbox" id="r-keep"> Keep each species in the phase written (no phase changes between 25 °C and the reaction temperature)</label></p>
+      <p class="warning hidden" id="r-error"></p>
+      <div id="r-out" aria-live="polite"></div>
+
+      <h3>Heat of combustion and heating value</h3>
+      <p class="small muted">Complete combustion to CO₂, H₂O and N₂. The higher heating value (HHV) has the water leave as a liquid; the lower (LHV) as vapour.</p>
+      <div class="row">
+        <div class="field"><label for="c-species">Fuel</label><select id="c-species"></select></div>
+        <div class="field"><label for="c-phase">Fuel phase at 25 °C</label><select id="c-phase"></select></div>
+      </div>
+      <p class="warning hidden" id="c-error"></p>
+      <div id="c-out" aria-live="polite"></div>
+    </section>
+
+    <!-- 4. reactor / flame -->
+    <section class="tabpanel card hidden" id="panel-reactor" role="tabpanel" aria-labelledby="tab-reactor">
+      <h2>Reactor and flame temperature</h2>
+      <p>The outlet temperature from the energy balance Σ ṅout ĥout(T) = Σ ṅin ĥin + Q, with ĥ measured from the elements at 25 °C (heats of formation included). The equation is solved by bracketing and bisection, so it finds the answer without a starting guess, even when a boiling point lies on the way.</p>
+      <div class="row">
+        <div class="field"><label for="x-mode">What to calculate</label>
+          <select id="x-mode"><option value="flame">Adiabatic flame temperature (fuel and air)</option><option value="general">Reactor with any feeds, reaction and heat duty</option></select></div>
+      </div>
+
+      <div id="x-flame" style="margin-top: 12px;">
+        <div class="row">
+          <div class="field"><label for="f-fuel">Fuel</label><select id="f-fuel"></select></div>
+          <div class="field"><label for="f-excess">Excess air (%)</label><input id="f-excess" type="text" inputmode="decimal" autocomplete="off" value="0"></div>
+          <div class="field"><label for="f-conv">Fuel conversion (%)</label><input id="f-conv" type="text" inputmode="decimal" autocomplete="off" value="100"></div>
+        </div>
+        <div class="row" style="margin-top: 12px;">
+          <div class="field"><label for="f-Tfuel">Fuel feed temperature <span class="tu"></span></label><input id="f-Tfuel" class="tin" type="text" inputmode="decimal" autocomplete="off" value="25"></div>
+          <div class="field"><label for="f-Tair">Air feed temperature <span class="tu"></span></label><input id="f-Tair" class="tin" type="text" inputmode="decimal" autocomplete="off" value="25"></div>
+          <div class="field"><label for="f-water">Water formed, reference state</label>
+            <select id="f-water"><option value="g">Vapour (ΔH°f of H₂O gas)</option><option value="l">Liquid (ΔH°f of H₂O liquid)</option></select></div>
+        </div>
+        <p class="small muted">Air is 21 mol % O₂ and 79 mol % N₂. Complete combustion of the converted fuel to CO₂ and H₂O. The basis is 1 mol/s of fuel.</p>
+      </div>
+
+      <div id="x-general" class="hidden" style="margin-top: 12px;">
+        <div class="row">
+          <div class="field wide"><label for="g-rx">Reaction (optional: leave blank to just heat or cool the feeds)</label><input id="g-rx" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. CO + 0.5 O2 -> CO2"></div>
+        </div>
+        <div class="row" style="margin-top: 12px;">
+          <div class="field"><label for="g-how">How far it goes</label>
+            <select id="g-how"><option value="conv">Fractional conversion of a reactant</option><option value="extent">Extent of reaction ξ</option></select></div>
+          <div class="field" id="g-conv-box"><label for="g-conv-sp">Reactant</label><select id="g-conv-sp"></select></div>
+          <div class="field" id="g-conv-val-box"><label for="g-conv">Conversion (%)</label><input id="g-conv" type="text" inputmode="decimal" autocomplete="off" value="100"></div>
+          <div class="field hidden" id="g-ext-box"><label for="g-ext">Extent ξ (<span class="fu"></span>)</label><input id="g-ext" class="fin" type="text" inputmode="decimal" autocomplete="off"></div>
+          <div class="field"><label for="g-Q">Heat added Q (<span class="wu"></span>; 0 = adiabatic, negative = heat removed)</label><input id="g-Q" class="qin" type="text" inputmode="decimal" autocomplete="off" value="0"></div>
+        </div>
+        <h3>Feed</h3>
+        <div id="g-feeds"></div>
+        <p><button type="button" class="secondary" id="g-add">+ Add a feed species</button></p>
+      </div>
+
+      <div class="row" style="margin-top: 12px;">
+        <div class="field"><label for="x-P">Pressure (<span class="pu"></span>)</label><input id="x-P" class="pin" type="text" inputmode="decimal" autocomplete="off"></div>
+      </div>
+      <p class="warning hidden" id="x-error"></p>
+      <div id="x-out" aria-live="polite"></div>
+    </section>
+
+    <!-- 5. open system -->
+    <section class="tabpanel card hidden" id="panel-open" role="tabpanel" aria-labelledby="tab-open">
+      <h2>Steady-flow energy balance</h2>
+      <p>Q − Ws = ΔḢ + ΔĖk + ΔĖp for streams entering and leaving one unit. Q is the heat added to the unit and Ws the shaft work done by it. Give each stream its temperature and contents; the enthalpy of each is worked out from a stated reference state. If the species change between inlet and outlet (a reaction), heats of formation are used.</p>
+      <div class="row">
+        <div class="field"><label for="o-example">Start from an example</label><select id="o-example"></select></div>
+      </div>
+      <h3>Inlet streams</h3>
+      <div id="o-in"></div>
+      <p><button type="button" class="secondary" id="o-add-in">+ Add an inlet stream</button></p>
+      <h3>Outlet streams</h3>
+      <div id="o-out-streams"></div>
+      <p><button type="button" class="secondary" id="o-add-out">+ Add an outlet stream</button></p>
+      <div class="row" style="margin-top: 12px;">
+        <div class="field"><label for="o-Ws">Shaft work done by the system Ws (<span class="wu"></span>)</label><input id="o-Ws" class="qin" type="text" inputmode="decimal" autocomplete="off" value="0"></div>
+        <div class="field"><label for="o-P">Pressure (<span class="pu"></span>)</label><input id="o-P" class="pin" type="text" inputmode="decimal" autocomplete="off"></div>
+      </div>
+      <p class="warning hidden" id="o-error"></p>
+      <div id="o-result" aria-live="polite"></div>
+    </section>
+
+    <!-- 6. data -->
+    <section class="tabpanel card hidden" id="panel-data" role="tabpanel" aria-labelledby="tab-data">
+      <h2>Data</h2>
+      <p>Everything the calculators use. The built-in rows are typical published values (Felder and Rousseau, Appendix B, Tables B.1 and B.2). Change a value, or add your own row, to match your course table: your entries are used by every calculator and are kept in this browser only.</p>
+      <p class="small muted" id="d-status"></p>
+
+      <h3>Heat capacities</h3>
+      <p class="small">Cp = a + bT + cT² + dT³ in J/(mol·K), with T in the unit shown (°C or K). The table lists the coefficients as plain numbers. To add or replace a row, type the coefficients as they are printed in your table and say which powers of ten the table prints.</p>
+      <p><label class="checkbox"><input type="checkbox" id="d-felder"> Show the coefficients as printed in Felder and Rousseau's Table B.2 (Cp in kJ/(mol·°C): a × 10³, b × 10⁵, c × 10⁸, d × 10¹²)</label></p>
+      <div class="table-wrap"><table class="datatable" id="d-cp"></table></div>
+      <div class="add-box">
+        <h3>Add or replace a Cp row</h3>
+        <div class="row">
+          <div class="field"><label for="a-sp">Species (existing or new)</label><input id="a-sp" type="text" list="a-sp-list" autocomplete="off" spellcheck="false" placeholder="e.g. N2 or C3H6"><datalist id="a-sp-list"></datalist></div>
+          <div class="field"><label for="a-ph">Phase</label><select id="a-ph"><option value="g">Gas</option><option value="l">Liquid</option><option value="s">Solid</option></select></div>
+          <div class="field"><label for="a-T">T in the polynomial</label><select id="a-T"><option value="C">°C</option><option value="K">K</option></select></div>
+          <div class="field"><label for="a-en">Cp printed in</label><select id="a-en"><option value="J">J/(mol·K)</option><option value="kJ">kJ/(mol·K)</option></select></div>
+        </div>
+        <div class="row coef-row" style="margin-top: 12px;">
+          <div class="field"><label for="a-a">a</label><input id="a-a" type="text" inputmode="decimal" autocomplete="off"></div>
+          <div class="field"><label for="a-b">b</label><input id="a-b" type="text" inputmode="decimal" autocomplete="off"></div>
+          <div class="field"><label for="a-c">c</label><input id="a-c" type="text" inputmode="decimal" autocomplete="off"></div>
+          <div class="field"><label for="a-d">d</label><input id="a-d" type="text" inputmode="decimal" autocomplete="off"></div>
+        </div>
+        <div class="exp-row">
+          <span>Your table prints a, b, c, d multiplied by ten to the power:</span>
+          <label>a <input id="a-ea" class="exp" type="text" inputmode="numeric" value="0"></label>
+          <label>b <input id="a-eb" class="exp" type="text" inputmode="numeric" value="0"></label>
+          <label>c <input id="a-ec" class="exp" type="text" inputmode="numeric" value="0"></label>
+          <label>d <input id="a-ed" class="exp" type="text" inputmode="numeric" value="0"></label>
+        </div>
+        <div class="row" style="margin-top: 12px;">
+          <div class="field"><label for="a-lo">Valid from (T in the unit above)</label><input id="a-lo" type="text" inputmode="decimal" autocomplete="off" placeholder="optional"></div>
+          <div class="field"><label for="a-hi">Valid to</label><input id="a-hi" type="text" inputmode="decimal" autocomplete="off" placeholder="optional"></div>
+          <div class="field"><button type="button" id="a-go">Save this row</button></div>
+          <div class="field"><button type="button" class="secondary" id="a-felder">Fill exponents as in Felder (3, 5, 8, 12; kJ)</button></div>
+        </div>
+        <p class="warning hidden" id="a-error"></p>
+      </div>
+
+      <h3>Heats of formation and phase-change data</h3>
+      <p class="small">ΔH°f at 25 °C and 1 atm in kJ/mol for each phase the species can be in (elements in their standard state are 0). Melting and boiling points in °C at 1 atm; ΔHfus at the melting point and ΔHvap at the normal boiling point in kJ/mol; Tc in K (used for the Watson correlation). Edit any box; an edited box is outlined.</p>
+      <div class="table-wrap"><table class="datatable" id="d-props"></table></div>
+      <div class="add-box">
+        <h3>Add a species</h3>
+        <div class="row">
+          <div class="field"><label for="n-id">Formula (used in reactions)</label><input id="n-id" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. C3H6"></div>
+          <div class="field"><label for="n-name">Name</label><input id="n-name" type="text" autocomplete="off" placeholder="e.g. Propylene"></div>
+          <div class="field"><label for="n-std">Phase at 25 °C</label><select id="n-std"><option value="g">Gas</option><option value="l">Liquid</option><option value="s">Solid</option></select></div>
+          <div class="field"><button type="button" id="n-go">Add species</button></div>
+        </div>
+        <p class="warning hidden" id="n-error"></p>
+      </div>
+      <p style="margin-top: 18px;"><button type="button" class="danger" id="d-reset">Remove all my changes</button></p>
+    </section>
+
+    <p class="note">Method and limits: enthalpy changes with pressure are neglected (ideal gases, incompressible liquids); mixtures are ideal; the boiling point at other pressures uses the Antoine constants of the vapour pressure page where a species has them. Heat capacity polynomials are only reliable inside their stated range: the page warns when a result goes outside it.</p>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/chem.js"></script>
+  <script src="js/balance.js"></script>
+  <script src="js/energy.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/energy-ui.js"></script>
+</body>
+</html>
