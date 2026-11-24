@@ -607,7 +607,7 @@
     const rep = x => (x.k === Qx.k ? Qw : x.t === 'num' || x.t === 'sym' || x.t === 'const' ? x : rebuildWith(x, rep));
     const fw = simplify(CAS.subst(rep(f), v, sub(ws, h)));
     if (dependsOn(fw, v)) return null;
-    const nd = mkNode('Complete the square', f, v, { formula: 'a·x² + b·x + c = a·(x + b/2a)² + (c − b²/4a)' });
+    const nd = mkNode('Complete the square', f, v, { formula: 'a·x² + b·x + c = a·(x + b/(2a))² + (c − b²/(4a))' });
     nd.lines.push(S(Qx) + ' = ' + S(Qw.t === 'add' && false ? Qw : mul(q.a2, pow(add(sy(v), h), TWO))) + ' + ' + S(beta) + ' = ' + S(mul(q.a2, pow(add(sy(v), h), TWO))) + (sgn(beta) < 0 ? ' − ' + S(neg(beta)) : ' + ' + S(beta)) + '.');
     nd.lines.push('Let ' + w + ' = ' + S(add(sy(v), h)) + ', so ' + v + ' = ' + S(sub(ws, h)) + ' and d' + w + ' = d' + v + '.');
     nd.then = '= ' + intText(fw, w);
@@ -669,7 +669,7 @@
       const Qk = pow(t.factor, num(-t.power));
       const f2 = simplify(add(mul(div(B, mul(TWO, a)), dQ, Qk), mul(D0, Qk)));
       if (f2.k === f.k) return null;
-      const nd = mkNode('Split the numerator', f, v, { formula: 'B·x + C = (B/2a)·(2a·x + b) + (C − B·b/2a)' });
+      const nd = mkNode('Split the numerator', f, v, { formula: 'B·x + C = (B/(2a))·(2a·x + b) + (C − B·b/(2a))' });
       nd.lines.push('The denominator ' + S(t.factor) + ' has derivative ' + S(dQ) + '. Write the numerator ' + S(t.num) + ' as ' + S(simplify(div(B, mul(TWO, a)))) + '·(' + S(dQ) + ') + ' + S(D0) + '.');
       nd.then = '= ' + intText(f2, v);
       const ch = solveRec(f2, v, ctx);

@@ -3,7 +3,9 @@
 Calculators for undergraduate chemical engineering that show their working: a mass balance flowsheet solver
 with degrees-of-freedom analysis, energy balances, step-by-step integrals and derivatives, electrochemistry,
 vapour pressure, ideal gas and a unit converter.
-Plain HTML, CSS and JavaScript. No build step, no dependencies, no server needed, and no AI at runtime.
+Plain HTML, CSS and JavaScript. No build step, no server needed, and no AI at runtime. The one piece of outside code is
+[KaTeX](https://katex.org) (MIT licence), which only typesets formulas; a copy is included in `vendor/katex/`, so the site
+has no other dependency and works offline.
 
 | Page | What it does |
 | --- | --- |
@@ -44,7 +46,9 @@ js/energy.js     heat capacity, phase change, heats of reaction, adiabatic tempe
 js/cas.js        small computer algebra core: parser, exact simplification, differentiation, polynomials (window.CAS)
 js/integrate.js  rule-based step-by-step integrator with verification, definite and improper integrals (window.Integrate)
 js/multi.js      double and triple integrals: coordinate systems and Jacobians, iterated integrals, region and solid geometry, change of order (window.Multi)
-js/ui-kit.js     small DOM helpers shared by the calculus pages (window.UIKit)
+js/tex.js        turns the plain-text mathematics the calculators print into LaTeX (window.Tex); the page then typesets it with KaTeX
+js/ui-kit.js     small DOM helpers shared by the calculus pages, including typeset formulas (window.UIKit)
+vendor/katex/    KaTeX 0.19.1 (script, stylesheet, fonts and licence), unchanged
 js/site.js       banner, navigation and footer shared by every page; the TOOLS list at the top is the sidebar
 js/*-ui.js       the code behind each page (forms and display only, no calculations)
 tests/           one test file per library; run-jxa.js runs them on a Mac without Node
@@ -63,6 +67,7 @@ node tests/energy.test.js
 node tests/cas.test.js
 node tests/integrate.test.js
 node tests/multi.test.js
+node tests/tex.test.js
 ```
 
 No Node? On a Mac, `osascript -l JavaScript tests/run-jxa.js "$PWD"` runs every test file with the JavaScript engine that ships with macOS (or name the files: `... "$PWD" cas integrate`).
@@ -74,6 +79,7 @@ No Node? On a Mac, `osascript -l JavaScript tests/run-jxa.js "$PWD"` runs every 
 - `cas`: parser round trips and error messages, derivatives against a table and against finite differences on random expressions, simplification never changing a value.
 - `integrate`: about 130 classic integrals each re-checked by finite differences, random derivative-then-integrate tests (every answer is verified or the result is "no method"; a wrong answer is never shown), definite and improper integrals against numeric quadrature.
 - `multi`: every worked example against its hand value, the conversions to polar / cylindrical / spherical coordinates, random double and triple integrals in all four systems against a separate fixed-panel Gauss–Legendre integrator, symbols as parameters, honest failures (no closed form, divergence, limits that are not real, limits the wrong way round), the picture geometry (shaded area equals the integral of 1), and the change of order on classic regions and on random ones.
+- `tex`: fixed cases for every kind of notation; 400 random expressions printed by the algebra core, turned into LaTeX and read back as the same expression; and every line the integrator, the derivative rules and the multiple-integral solver produce (700+ lines of mathematics, 500+ of prose, 200+ rule formulas) cut into words and formulas, with KaTeX checked to accept all of the LaTeX.
 - `electro`: grams per ampere-hour for common products against handbook values, Nernst, ΔG, K, energy per kg.
 
 ## Adding things

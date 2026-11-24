@@ -129,10 +129,12 @@
     var order = orderNames(), parts = [];
     for (var k = order.length - 1; k >= 0; k--) {
       var v = order[k];
-      parts.push('∫ ' + nice(v) + ': ' + (typed['lo-' + v] || '?') + ' → ' + (typed['hi-' + v] || '?'));
+      parts.push('∫ from ' + (typed['lo-' + v] || '?') + ' to ' + (typed['hi-' + v] || '?') + ' of');
     }
     var ft = $('f').value.trim() || 'f';
-    $('setup').textContent = parts.join('   ') + '   ' + paren(ft) + '  ' + order.map(function (v) { return 'd' + nice(v); }).join(' ');
+    var host = $('setup');
+    host.textContent = '';
+    U.rich(host, parts.join(' ') + ' ' + paren(ft) + ' ' + order.map(function (v) { return 'd' + nice(v); }).join(' '));
   }
 
   /* ───────────────────────── reading the function ───────────────────────── */
@@ -166,7 +168,7 @@
     }
     var line = el('span');
     line.appendChild(document.createTextNode('Read as: '));
-    line.appendChild(el('span', 'read', S(parsed.expr)));
+    line.appendChild(U.mathEl('span', 'read', S(parsed.expr)));
     note.appendChild(line);
     c.notes.concat(parsed.notes || []).forEach(function (n) { note.appendChild(el('span', 'hint', n)); });
   }
@@ -321,16 +323,16 @@
     res.levels.forEach(function (l, k) {
       var d = el('div', 'work-level');
       d.appendChild(el('h3', null, 'Step ' + (k + 1) + ': ' + ROLE_TITLE[l.role] + ', with respect to ' + nice(l.v)));
-      d.appendChild(el('div', 'int-line', levelHead(l)));
+      d.appendChild(U.mathEl('div', 'int-line', levelHead(l)));
       if (l.steps.length) {
         var det = el('details'), sum = el('summary', null, 'Show how the antiderivative is found, rule by rule (' + l.steps.length + ' step' + (l.steps.length > 1 ? 's' : '') + ')');
         det.appendChild(sum);
         U.renderSteps(det, l.steps);
         d.appendChild(det);
       }
-      if (l.evaluation && l.evaluation.length) { var ev = el('div', 'eval-lines'); l.evaluation.forEach(function (t) { ev.appendChild(el('div', 'eq', t.replace(/theta/g, 'θ').replace(/\brho\b/g, 'ρ').replace(/\bphi\b/g, 'φ'))); }); d.appendChild(ev); }
+      if (l.evaluation && l.evaluation.length) { var ev = el('div', 'eval-lines'); l.evaluation.forEach(function (t) { ev.appendChild(U.mathEl('div', 'eq', t.replace(/theta/g, 'θ').replace(/\brho\b/g, 'ρ').replace(/\bphi\b/g, 'φ'))); }); d.appendChild(ev); }
       if (l.ok) {
-        d.appendChild(el('div', 'result-line', '= ' + S(l.result)));
+        d.appendChild(U.mathEl('div', 'result-line', '= ' + S(l.result)));
         if (k < res.levels.length - 1) d.appendChild(el('div', 'muted small', 'This is the function to integrate in the next step.'));
       } else d.appendChild(box('bad-box', 'This step could not be completed', l.message));
       (l.issues || []).concat(l.warnings || []).forEach(function (t) { d.appendChild(box('warn-box', null, t)); });
@@ -343,16 +345,16 @@
     if (!c) return;
     var b = el('div', 'convert-box');
     b.appendChild(el('strong', null, 'Change of variables'));
-    c.map.forEach(function (t) { b.appendChild(el('div', 'eq', t)); });
-    b.appendChild(el('div', 'eq', c.element + '    (the factor ' + c.jacobian + ' is the Jacobian)'));
-    b.appendChild(el('div', 'eq', 'f = ' + S(res.integrand)));
-    if (c.substituted) b.appendChild(el('div', 'eq', 'in the new variables: ' + S(c.substituted)));
-    b.appendChild(el('div', 'eq', 'f · ' + c.jacobian + ' = ' + S(res.converted) + '     ← this is integrated'));
+    c.map.forEach(function (t) { b.appendChild(U.mathEl('div', 'eq', t)); });
+    b.appendChild(U.mathEl('div', 'eq', c.element + '    (the factor ' + c.jacobian + ' is the Jacobian)'));
+    b.appendChild(U.mathEl('div', 'eq', 'f = ' + S(res.integrand)));
+    if (c.substituted) b.appendChild(U.mathEl('div', 'eq', 'in the new variables: ' + S(c.substituted)));
+    b.appendChild(U.mathEl('div', 'eq', 'f · ' + c.jacobian + ' = ' + S(res.converted) + '     ← this is integrated'));
     parent.appendChild(b);
   }
 
   function setupLine(res) {
-    return res.setup.map(function (s) { return '∫ ' + nice(s.v) + ': ' + s.lower + ' → ' + s.upper; }).join('   ') + '   ' + paren(S(res.integrand)) + '  ' + res.order.map(function (v) { return 'd' + nice(v); }).join(' ');
+    return res.setup.map(function (s) { return '∫ from ' + s.lower + ' to ' + s.upper + ' of'; }).join(' ') + ' ' + paren(S(res.integrand)) + ' ' + res.order.map(function (v) { return 'd' + nice(v); }).join(' ');
   }
 
   function checkedLine(res) {
@@ -364,16 +366,16 @@
 
   function renderAnswer(out, res) {
     var r = el('div', 'result answer');
-    r.appendChild(el('div', 'setup-line', setupLine(res)));
+    r.appendChild(U.mathEl('div', 'setup-line', setupLine(res)));
     if (res.kind === 'exact') {
       r.appendChild(el('span', 'kind', 'Result'));
-      r.appendChild(el('div', 'big', exactLine(res.exact, res.exactNumber)));
+      r.appendChild(U.mathEl('div', 'big', exactLine(res.exact, res.exactNumber)));
       var c = checkedLine(res);
       if (c) r.appendChild(el('div', 'checked', c));
       out.appendChild(r);
     } else if (res.kind === 'numeric') {
       r.appendChild(el('span', 'kind', 'Numeric value only'));
-      var big = el('div', 'big', '≈ ' + fmtNum(res.numeric));
+      var big = U.mathEl('div', 'big', '≈ ' + fmtNum(res.numeric));
       big.appendChild(el('span', 'numeric-tag', 'numeric'));
       r.appendChild(big);
       if (res.message) r.appendChild(el('div', 'muted', res.message));
@@ -394,7 +396,7 @@
     if (!wanted.length || res.params.length) { if (wanted.length) out.appendChild(box('warn-box', null, 'The extra quantities are not worked out when the limits contain symbols other than the coordinates.')); return; }
     var a = Multi.applications(spec, wanted, { maxMs: 4000 });
     var wrap = el('div', 'apps'), tw = el('div', 'table-wrap'), tb = el('table'), body = el('tbody');
-    var row = function (name, text) { var tr = el('tr'); tr.appendChild(el('td', null, name)); tr.appendChild(el('td', null, text)); body.appendChild(tr); };
+    var row = function (name, text) { var tr = el('tr'), td = el('td'); tr.appendChild(el('td', null, name)); U.rich(td, text); tr.appendChild(td); body.appendChild(tr); };
     var show = function (x) { return x && x.exact ? exactLine(x.exact, x.number) : x && x.number !== null && x.number !== undefined ? '≈ ' + fmtNum(x.number) + '  (numeric)' : 'not found' + (x && x.message ? ': ' + x.message : ''); };
     if (a.size) row(dim() === 3 ? 'Volume' : 'Area', show(a.size));
     if (a.average) row('Average value of f', show(a.average));
@@ -415,21 +417,21 @@
     r.appendChild(el('span', 'kind', auto ? 'In the other order it works' : 'The other order'));
     var pieceLine = function (p) {
       var o = p.order;
-      return '∫ ' + nice(o[1].v) + ': ' + BT(o[1].lower) + ' → ' + BT(o[1].upper) + '   ∫ ' + nice(o[0].v) + ': ' + BT(o[0].lower) + ' → ' + BT(o[0].upper) + '   ' + paren(S(CAS.parse(spec.f))) + '  d' + nice(o[0].v) + ' d' + nice(o[1].v);
+      return '∫ from ' + BT(o[1].lower) + ' to ' + BT(o[1].upper) + ' of ∫ from ' + BT(o[0].lower) + ' to ' + BT(o[0].upper) + ' of ' + paren(S(CAS.parse(spec.f))) + ' d' + nice(o[0].v) + ' d' + nice(o[1].v);
     };
     rv.pieces.forEach(function (p, i) {
-      r.appendChild(el('div', 'setup-line', (rv.pieces.length > 1 ? 'Piece ' + (i + 1) + ':  ' : '') + pieceLine(p)));
+      r.appendChild(U.mathEl('div', 'setup-line', (rv.pieces.length > 1 ? 'Piece ' + (i + 1) + ':  ' : '') + pieceLine(p)));
     });
     if (rv.pieces.length > 1) r.appendChild(el('div', 'muted small', 'The region needs ' + rv.pieces.length + ' pieces in this order; the integral is the sum of the pieces.'));
-    if (rv.kind === 'exact') { r.appendChild(el('div', 'big', exactLine(rv.exact, rv.exactNumber))); }
-    else { var big = el('div', 'big', '≈ ' + fmtNum(rv.numeric)); big.appendChild(el('span', 'numeric-tag', 'numeric')); r.appendChild(big); }
+    if (rv.kind === 'exact') { r.appendChild(U.mathEl('div', 'big', exactLine(rv.exact, rv.exactNumber))); }
+    else { var big = U.mathEl('div', 'big', '≈ ' + fmtNum(rv.numeric)); big.appendChild(el('span', 'numeric-tag', 'numeric')); r.appendChild(big); }
     if (rv.originalNumeric !== undefined) r.appendChild(el('div', 'checked', 'Check: the original order, integrated numerically, gives ' + fmtNum(rv.originalNumeric) + (rv.agree ? '. It agrees.' : '.')));
     host.appendChild(r);
     host.appendChild(el('h3', null, 'Working in the other order'));
     rv.pieces.forEach(function (p, i) {
       var pc = el('div', 'piece');
       if (rv.pieces.length > 1) pc.appendChild(el('strong', null, 'Piece ' + (i + 1)));
-      pc.appendChild(el('div', 'eq', pieceLine(p)));
+      pc.appendChild(U.mathEl('div', 'eq', pieceLine(p)));
       renderLevels(pc, p.result);
       host.appendChild(pc);
     });

@@ -39,7 +39,7 @@ function run(argv) {
   const cache = {};
   G.require = p => {
     if (p.indexOf('assert') >= 0) return nodeAssert;
-    const file = base + '/js/' + p.split('/').pop();
+    const file = /vendor\//.test(p) ? base + '/' + p.replace(/^(\.\.?\/)+/, '') : base + '/js/' + p.split('/').pop();
     if (!cache[file]) {
       const outer = G.module;                 // the file that asked for this one keeps its own `module`
       G.module = { exports: {} };

@@ -69,7 +69,7 @@
     }
     var line = el('span');
     line.appendChild(document.createTextNode('Read as: '));
-    line.appendChild(el('span', 'read', S(parsed.expr)));
+    line.appendChild(U.mathEl('span', 'read', S(parsed.expr)));
     note.appendChild(line);
     c.notes.concat(parsed.notes).forEach(function (n) { note.appendChild(el('span', 'hint', n)); });
     return parsed.expr;
@@ -253,9 +253,9 @@
     if (res.ok) {
       var r = el('div', 'result answer');
       r.appendChild(el('span', 'kind', 'Answer'));
-      r.appendChild(el('div', 'big', head + ' = ' + S(res.antiderivative) + ' + C'));
+      r.appendChild(U.mathEl('div', 'big', head + ' = ' + S(res.antiderivative) + ' + C'));
       var fx = res.factored && S(res.factored) !== S(res.antiderivative) ? S(res.factored) : '';
-      if (fx) r.appendChild(el('div', 'muted', 'Also written: ' + fx + ' + C'));
+      if (fx) r.appendChild(U.mathEl('div', 'muted', 'Also written: ' + fx + ' + C'));
       r.appendChild(el('div', 'muted', verifiedLine(res.verified)));
       out.appendChild(r);
     } else {
@@ -287,7 +287,7 @@
     if (res.kind === 'exact') {
       var p1 = el('div', 'row-pair');
       p1.appendChild(el('span', 'kind', 'Exact value'));
-      p1.appendChild(el('div', 'big', head + ' = ' + S(res.exact)));
+      p1.appendChild(U.mathEl('div', 'big', head + ' = ' + S(res.exact)));
       if (res.exactNumber !== null && isFinite(res.exactNumber) && S(res.exact) !== fmtNum(res.exactNumber)) p1.appendChild(el('div', 'muted', '≈ ' + fmtNum(res.exactNumber) + '  (decimal form of the exact value)'));
       r.appendChild(p1);
       var p2 = el('div', 'row-pair');
@@ -300,14 +300,14 @@
     } else if (res.kind === 'numeric') {
       var p3 = el('div', 'row-pair');
       p3.appendChild(el('span', 'kind', 'Numeric value only'));
-      var big3 = el('div', 'big', head + ' ≈ ' + fmtNum(res.numeric));
+      var big3 = U.mathEl('div', 'big', head + ' ≈ ' + fmtNum(res.numeric));
       big3.appendChild(el('span', 'numeric-tag', 'numeric'));
       p3.appendChild(big3);
       p3.appendChild(el('div', 'muted', res.message));
       r.appendChild(p3);
     } else if (res.kind === 'diverges') {
       r.appendChild(el('span', 'kind', 'Result'));
-      r.appendChild(el('div', 'big', head + ' does not have a finite value'));
+      r.appendChild(U.mathEl('div', 'big', head + ' does not have a finite value'));
       r.appendChild(el('div', 'muted', res.message));
     } else {
       out.appendChild(box('bad-box', res.ok ? 'No value' : 'No result', res.message || 'No value could be found.'));
@@ -349,7 +349,7 @@
       if (res.evaluation && res.evaluation.length) {
         out.appendChild(el('h3', null, 'Part 2: apply the limits'));
         var ev = el('div', 'eval-lines');
-        res.evaluation.forEach(function (l) { ev.appendChild(el('div', 'eq', l)); });
+        res.evaluation.forEach(function (l) { ev.appendChild(U.mathEl('div', 'eq', l)); });
         out.appendChild(ev);
       }
     }
@@ -413,9 +413,9 @@
     var d = derivNotation(v, n, partial);
     var r = el('div', 'result answer');
     r.appendChild(el('span', 'kind', n === 1 ? (partial ? 'Partial derivative' : 'Derivative') : ORDER_NAMES[n] + (partial ? ' partial derivative' : ' derivative')));
-    r.appendChild(el('div', 'big', d + ' [' + S(f) + '] = ' + S(final)));
+    r.appendChild(U.mathEl('div', 'big', d + ' [' + S(f) + '] = ' + S(final)));
     var fcom = CAS.factorCommon(final);
-    if (S(fcom) !== S(final)) r.appendChild(el('div', 'muted', 'Also written: ' + S(fcom)));
+    if (S(fcom) !== S(final)) r.appendChild(U.mathEl('div', 'muted', 'Also written: ' + S(fcom)));
     if (partial) r.appendChild(el('div', 'muted', 'This is a partial derivative: ' + others.join(', ') + (others.length > 1 ? ' are' : ' is') + ' treated as ' + (others.length > 1 ? 'constants' : 'a constant') + '.'));
     out.appendChild(r);
     if (vv.note) out.appendChild(box('warn-box', null, vv.note));
@@ -425,8 +425,9 @@
       var tw = el('div', 'table-wrap'), tb = el('table', 'grad'), body = el('tbody');
       vars.forEach(function (x) {
         var tr = el('tr');
-        tr.appendChild(el('td', null, '∂/∂' + V(x)));
-        tr.appendChild(el('td', null, S(CAS.simplify(CAS.diff(f, x)))));
+        var c1 = el('td'), c2 = el('td');
+        U.rich(c1, '∂/∂' + V(x)); U.rich(c2, S(CAS.simplify(CAS.diff(f, x))));
+        tr.appendChild(c1); tr.appendChild(c2);
         body.appendChild(tr);
       });
       tb.appendChild(body); tw.appendChild(tb); out.appendChild(tw);
@@ -442,14 +443,14 @@
     out.appendChild(el('h2', null, 'Solution, step by step'));
     out.appendChild(el('p', 'steps-note', 'Each line names the rule. Where a rule needs the derivative of a part (u′, v′, the inner function), that is worked out in the lines nested under it.' + (partial ? ' ' + others.join(', ') + (others.length > 1 ? ' do' : ' does') + ' not depend on ' + v + ', so ' + (others.length > 1 ? 'they are' : (others[0] + ' is')) + ' treated as ' + (others.length > 1 ? 'constants' : 'a constant') + ' and ' + (others.length > 1 ? 'their' : 'its') + ' derivative is 0.' : '')));
     sections.forEach(function (sec) {
-      if (n > 1) out.appendChild(el('h3', null, ORDER_NAMES[sec.order] + ' derivative of ' + S(sec.from)));
+      if (n > 1) out.appendChild(U.mathEl('h3', null, ORDER_NAMES[sec.order] + ' derivative of ' + S(sec.from)));
       var steps = sec.ds.steps.map(function (s) {
         return { depth: s.depth, kind: 'rule', title: s.rule, integral: derivNotation(v, 1, partial).replace('/', '/') + ' [' + S(s.expr) + ']', formula: s.formula, lines: [s.text], then: null, result: S(s.result), hasChildren: false };
       });
       var wrap = el('div');
       out.appendChild(wrap);
       renderSteps(wrap, steps);
-      var res = el('p', 'eq out', '= ' + S(sec.ds.result));
+      var res = U.mathEl('p', 'eq out', '= ' + S(sec.ds.result));
       out.appendChild(res);
     });
     var top = out.getBoundingClientRect().top;

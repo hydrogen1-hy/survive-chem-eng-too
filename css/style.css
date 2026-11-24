@@ -276,3 +276,18 @@ button.danger:hover { background: var(--bad-bg); border-color: var(--bad); }
 .inspector .problems { margin: 10px 0 0; padding-left: 20px; color: var(--bad); font-size: 0.9rem; font-weight: 700; }
 .inspector .hintline { color: var(--muted); font-size: 0.88rem; margin: 8px 0 0; }
 .res-tools { margin: 0 0 8px; }
+
+/* ── typeset mathematics (KaTeX, see js/ui-kit.js) ──
+   Formulas sit in the text like words. KaTeX only breaks a line at "=", "+" and similar signs, so a line with a long
+   unbroken piece scrolls sideways inside its own box instead of pushing the page wider. */
+.math { white-space: normal; }
+/* a line that holds typeset formulas is set in the body font, not the monospace of the plain-text version */
+.has-math { font-family: var(--sans); }
+.eq.has-math { font-size: 1rem; line-height: 1.6; }
+/* when a long formula wraps, give the rows room: KaTeX's own line spacing lets tall fractions touch */
+.math .katex-html { display: inline-flex; flex-wrap: wrap; align-items: baseline; row-gap: 0.45em; }
+.math .katex { font-size: 1.1em; }
+.big .math .katex { font-size: 1em; }
+.eq, .int-line, .result-line, .setup-line, .big, .combine, .csteps .line, .csteps .formula { overflow-x: auto; overflow-y: hidden; padding-top: 0.12em; padding-bottom: 0.12em; }
+.eq .katex, .int-line .katex, .result-line .katex, .big .katex { text-align: left; }
+.katex-html a { color: inherit; }
